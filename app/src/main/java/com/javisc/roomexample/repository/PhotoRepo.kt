@@ -20,7 +20,7 @@ class PhotoRepo : KoinComponent {
         _screenStateMutableLiveData.value = ScreenState.LOADING
         val photo = photoApi.getPhoto(id)
         photo.fold(
-            { _screenStateMutableLiveData.value = ScreenState.ERROR.API(it.localizedMessage) },
+            { _screenStateMutableLiveData.value = ScreenState.ERROR.API("API Error") },
             {
                 dao.insert(it)
                 _screenStateMutableLiveData.value = ScreenState.SUCCESS

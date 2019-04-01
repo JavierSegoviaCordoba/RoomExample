@@ -11,8 +11,5 @@ interface PhotoApi {
 
 class PhotoApiImpl(private val photoService: PhotoService) : PhotoApi {
     override suspend fun getPhoto(id: Long) =
-        Try {
-            println(photoService.getPhoto(id).request().url())
-            photoService.getPhoto(id).await()
-        }.toEither()
+        Try { photoService.getPhoto(id).await() }.toEither()
 }
