@@ -72,11 +72,15 @@ class PhotoFragment : Fragment() {
 
     private fun setupRecyclerView() {
         val photoAdapter = PhotoAdapter()
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = photoAdapter
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = photoAdapter
+        }
 
         viewModel.photoList.observe(this, Observer {
             photoAdapter.submitList(it)
+            recyclerView.smoothScrollToPosition(photoAdapter.itemCount)
         })
     }
 
