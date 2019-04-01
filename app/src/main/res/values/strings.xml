@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RoomExample</string>
+    <string name="description_photo">Photo placeholder</string>
+    <string name="add_item">Add item</string>
+    <string name="clear">Clear</string>
+    <string name="id_placeholder">ID: %s</string>
+</resources>
