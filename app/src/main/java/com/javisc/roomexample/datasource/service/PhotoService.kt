@@ -3,7 +3,6 @@ package com.javisc.roomexample.datasource.service
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.javisc.roomexample.datasource.database.entity.Photo
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
@@ -31,5 +30,5 @@ object Retrofit {
 
 interface PhotoService {
     @GET("{id}")
-    fun getPhoto(@Path("id") id: Long): Call<Photo>
+    fun getPhoto(@Path("id") id: Long): Call<PhotoDto>
 }
