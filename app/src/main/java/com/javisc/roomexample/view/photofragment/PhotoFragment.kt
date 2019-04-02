@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.javisc.roomexample.R
-import com.javisc.roomexample.util.ScreenState
+import com.javisc.roomexample.util.Status
 import kotlinx.android.synthetic.main.photo_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,23 +36,22 @@ class PhotoFragment : Fragment() {
 
     private fun setupStates() {
         swipeRefreshLayout.isEnabled = false
-
-        viewModel.state.observe(this, Observer { screenState ->
+        viewModel.screenState.observe(this, Observer { screenState ->
             when (screenState) {
-                is ScreenState.LOADING -> swipeRefreshLayout.isRefreshing = true
-                is ScreenState.ERROR.API -> {
+                is Status.LOADING -> swipeRefreshLayout.isRefreshing = true
+                is Status.ERROR.API -> {
                     swipeRefreshLayout.isRefreshing = false
                     view?.let { view ->
                         Snackbar.make(view, screenState.error, Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                is ScreenState.ERROR.DATABASE -> {
+                is Status.ERROR.DB -> {
                     swipeRefreshLayout.isRefreshing = false
                     view?.let { view ->
                         Snackbar.make(view, screenState.error, Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                is ScreenState.SUCCESS -> {
+                is Status.SUCCESS -> {
                     swipeRefreshLayout.isRefreshing = false
                 }
             }

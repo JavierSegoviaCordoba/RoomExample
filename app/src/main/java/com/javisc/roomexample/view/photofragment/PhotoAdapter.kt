@@ -13,6 +13,7 @@ import com.javisc.roomexample.R
 import com.javisc.roomexample.datasource.database.entity.Photo
 import kotlinx.android.synthetic.main.item_photo.view.*
 
+
 class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.MovieViewHolder>(TaskDiffCallback()) {
 
     private var list: List<Photo>? = null
@@ -22,9 +23,9 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.MovieViewHolder>(TaskDiffCa
         return MovieViewHolder(inflater.inflate(R.layout.item_photo, parent, false))
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
         holder.bind(getItem(position))
-    }
+
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -48,11 +49,8 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.MovieViewHolder>(TaskDiffCa
 
 class TaskDiffCallback : DiffUtil.ItemCallback<Photo>() {
 
-    override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-        return oldItem.id == newItem.id
-    }
+    override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-        return oldItem == newItem
-    }
+    override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean = oldItem == newItem
+
 }

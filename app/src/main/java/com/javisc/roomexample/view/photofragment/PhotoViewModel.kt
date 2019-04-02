@@ -7,12 +7,10 @@ import kotlinx.coroutines.launch
 
 class PhotoViewModel(private val photoRepo: PhotoRepo) : ViewModel() {
 
-    val state = photoRepo.screenStateLiveData
+    val screenState = photoRepo.status
     val photoList = photoRepo.getPhotos()
 
-    fun getPhoto(id: Long) = viewModelScope.launch {
-        photoRepo.fetchPhoto(id)
-    }
+    fun getPhoto(id: Long) = viewModelScope.launch { photoRepo.fetchPhoto(id) }
 
     fun clear() = viewModelScope.launch { photoRepo.clear() }
 
