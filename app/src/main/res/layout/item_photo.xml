@@ -24,10 +24,10 @@
         android:layout_height="21dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@+id/textViewUrl"
         app:layout_constraintStart_toEndOf="@+id/imageViewPhoto"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Google LLC" />
 
     <TextView

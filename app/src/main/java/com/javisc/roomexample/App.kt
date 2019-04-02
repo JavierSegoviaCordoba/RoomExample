@@ -17,7 +17,7 @@ class App : Application() {
         super.onCreate()
         appContext = this.applicationContext
 
-        startKoin{
+        startKoin {
             androidLogger()
             androidContext(this@App)
             modules(modules)
