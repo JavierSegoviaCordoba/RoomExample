@@ -1,4 +1,4 @@
-package com.javisc.roomexample.view.photofragment
+package com.javisc.roomexample.ui.photofragment
 
 import android.view.LayoutInflater
 import android.view.View

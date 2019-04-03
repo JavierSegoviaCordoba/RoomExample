@@ -24,14 +24,14 @@ class PhotoRepo : KoinComponent {
         _status.value = Status.LOADING
 
         val photo: Either<Throwable, PhotoDto> = photoApi.getPhoto(id)
-        photo.fold({
-            _status.value = Status.ERROR.API("API ERROR")
-        }, {
+        photo.fold({ throwable ->
+            _status.value = throwable.message?.let { Status.ERROR.API(it) }
+        }, { photoDto ->
             try {
-                dao.insert(it.toEntity())
+                dao.insert(photoDto.toEntity())
                 _status.value = Status.SUCCESS
             } catch (exception: Exception) {
-                _status.value = Status.ERROR.DB("DB ERROR")
+                _status.value = exception.message?.let { Status.ERROR.DB(it) }
             }
         })
     }

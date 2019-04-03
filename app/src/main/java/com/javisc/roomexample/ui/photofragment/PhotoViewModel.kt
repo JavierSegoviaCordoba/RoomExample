@@ -1,4 +1,4 @@
-package com.javisc.roomexample.view.photofragment
+package com.javisc.roomexample.ui.photofragment
 
 import androidx.lifecycle.*
 import com.javisc.roomexample.datasource.database.entity.Photo
@@ -6,7 +6,6 @@ import com.javisc.roomexample.repository.PhotoRepo
 import com.javisc.roomexample.util.ScreenState
 import com.javisc.roomexample.util.Status
 import kotlinx.coroutines.launch
-
 
 class PhotoViewModel(private val photoRepo: PhotoRepo) : ViewModel() {
 

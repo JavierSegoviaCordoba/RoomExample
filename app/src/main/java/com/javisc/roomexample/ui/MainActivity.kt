@@ -1,4 +1,4 @@
-package com.javisc.roomexample.view
+package com.javisc.roomexample.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,4 +10,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+
 }
