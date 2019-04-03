@@ -25,8 +25,7 @@ class PhotoViewModel(private val photoRepo: PhotoRepo) : ViewModel() {
                 _screenStates.value = ScreenState.FINISHED
             }
             is Status.LOADING -> _screenStates.value = ScreenState.LOADING
-        }
-        _screenStates
+        }.let { _screenStates }
     }
 
     val photoList = photoRepo.getPhotos()
