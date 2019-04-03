@@ -30,5 +30,5 @@ object Retrofit {
 
 interface PhotoService {
     @GET("{id}")
-    fun getPhoto(@Path("id") id: Long): Call<PhotoDto>
+    fun getPhoto(@Path("id") id: Int): Call<PhotoDto>
 }

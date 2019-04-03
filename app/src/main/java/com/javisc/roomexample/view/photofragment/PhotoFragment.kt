@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.javisc.roomexample.R
+import com.javisc.roomexample.extension.View.snackbarShort
 import com.javisc.roomexample.util.ScreenState
 import kotlinx.android.synthetic.main.photo_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PhotoFragment : Fragment() {
 
     private val viewModel: PhotoViewModel by viewModel()
+    private var counter: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,41 +26,27 @@ class PhotoFragment : Fragment() {
         return inflater.inflate(R.layout.photo_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        setupStates()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupStates(view)
         setupButtons()
         setupRecyclerView()
-
     }
 
-    private fun setupStates() {
+    private fun setupStates(view: View) {
         swipeRefreshLayout.isEnabled = false
         viewModel.screenState.observe(this, Observer { screenState ->
             when (screenState) {
                 is ScreenState.LOADING -> swipeRefreshLayout.isRefreshing = true
-                is ScreenState.ERROR -> {
-                    swipeRefreshLayout.isRefreshing = false
-                    view?.let { view ->
-                        Snackbar.make(view, screenState.message, Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-                is ScreenState.SUCCESS -> {
-                    swipeRefreshLayout.isRefreshing = false
-                }
+                is ScreenState.ERROR -> view.snackbarShort(screenState.message)
+                is ScreenState.FINISHED -> swipeRefreshLayout.isRefreshing = false
+                is ScreenState.SUCCESS -> swipeRefreshLayout.isRefreshing = false
             }
         })
     }
 
     private fun setupButtons() {
-        var counter = 0L
-
-        buttonAddItem.setOnClickListener {
-            counter++
-            viewModel.getPhoto(counter)
-        }
-
+        buttonAddItem.setOnClickListener { viewModel.getPhoto(counter + 1) }
         buttonClear.setOnClickListener { viewModel.clear() }
     }
 
@@ -72,6 +59,7 @@ class PhotoFragment : Fragment() {
         }
 
         viewModel.photoList.observe(this, Observer {
+            counter = it.size
             photoAdapter.submitList(it)
             recyclerView.smoothScrollToPosition(photoAdapter.itemCount)
         })

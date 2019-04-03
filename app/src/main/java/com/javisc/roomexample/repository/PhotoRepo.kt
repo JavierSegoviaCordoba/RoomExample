@@ -17,7 +17,7 @@ class PhotoRepo : KoinComponent {
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status> = _status
 
-    suspend fun fetchPhoto(id: Long) {
+    suspend fun fetchPhoto(id: Int) {
         _status.value = Status.LOADING
 
         val photo = photoApi.getPhoto(id)

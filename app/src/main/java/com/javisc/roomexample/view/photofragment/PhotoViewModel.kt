@@ -16,8 +16,14 @@ class PhotoViewModel(private val photoRepo: PhotoRepo) : ViewModel() {
     val screenState = Transformations.switchMap(photoRepo.status) {
         when (it) {
             is Status.SUCCESS -> _screenStates.value = ScreenState.SUCCESS
-            is Status.ERROR.API -> _screenStates.value = ScreenState.ERROR(it.error)
-            is Status.ERROR.DB -> _screenStates.value = ScreenState.ERROR(it.error)
+            is Status.ERROR.API -> {
+                _screenStates.value = ScreenState.ERROR(it.error)
+                _screenStates.value = ScreenState.FINISHED
+            }
+            is Status.ERROR.DB -> {
+                _screenStates.value = ScreenState.ERROR(it.error)
+                _screenStates.value = ScreenState.FINISHED
+            }
             is Status.LOADING -> _screenStates.value = ScreenState.LOADING
         }
         _screenStates
@@ -25,7 +31,7 @@ class PhotoViewModel(private val photoRepo: PhotoRepo) : ViewModel() {
 
     val photoList = photoRepo.getPhotos()
 
-    fun getPhoto(id: Long) = viewModelScope.launch { photoRepo.fetchPhoto(id) }
+    fun getPhoto(id: Int) = viewModelScope.launch { photoRepo.fetchPhoto(id) }
 
     fun clear() = viewModelScope.launch { photoRepo.clear() }
 

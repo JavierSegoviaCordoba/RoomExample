@@ -6,11 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.javisc.roomexample.R
 import com.javisc.roomexample.datasource.database.entity.Photo
+import com.javisc.roomexample.extension.View.ImageView.glideCrossFadeCircle
 import kotlinx.android.synthetic.main.item_photo.view.*
 
 
@@ -31,14 +29,12 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.MovieViewHolder>(TaskDiffCa
 
         fun bind(photo: Photo) {
             with(itemView) {
-                Glide.with(this).load(photo.url)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageViewPhoto)
+                imageViewPhoto.glideCrossFadeCircle(photo.url)
                 textViewTitle.text = context.getString(R.string.id_placeholder, photo.id.toString())
                 textViewUrl.text = photo.title
             }
         }
+
     }
 
     override fun submitList(list: List<Photo>?) {
