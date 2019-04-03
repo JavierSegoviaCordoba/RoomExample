@@ -9,5 +9,6 @@ interface PhotoApi {
 }
 
 class PhotoApiImpl(private val photoService: PhotoService) : PhotoApi {
-    override suspend fun getPhoto(id: Int) = Try { photoService.getPhoto(id).await() }.toEither()
+    override suspend fun getPhoto(id: Int): Either<Throwable, PhotoDto> =
+        Try { photoService.getPhoto(id).await() }.toEither()
 }

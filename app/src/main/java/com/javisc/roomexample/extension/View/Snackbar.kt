@@ -1,10 +1,12 @@
-package com.javisc.roomexample.extension.View
-
 import android.view.View
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
-fun View.snackbarShort(message: String) = Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
-fun View.snackbarLong(message: String) = Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
-fun View.snackbarIndefinite(message: String) =
-    Snackbar.make(this, message, Snackbar.LENGTH_INDEFINITE).show()
-
+fun View.snackbarShortOnDismiss(message: String, onDismiss: () -> Any) =
+    Snackbar.make(this, message, Snackbar.LENGTH_SHORT).addCallback(object :
+        BaseTransientBottomBar.BaseCallback<Snackbar>() {
+        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+            super.onDismissed(transientBottomBar, event)
+            onDismiss()
+        }
+    }).show()

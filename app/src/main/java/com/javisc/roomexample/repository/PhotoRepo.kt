@@ -2,9 +2,12 @@ package com.javisc.roomexample.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import arrow.core.Either
 import com.javisc.roomexample.datasource.database.DatabaseRoom
+import com.javisc.roomexample.datasource.database.entity.Photo
 import com.javisc.roomexample.datasource.database.entity.toEntity
 import com.javisc.roomexample.datasource.service.PhotoApi
+import com.javisc.roomexample.datasource.service.PhotoDto
 import com.javisc.roomexample.util.Status
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -20,7 +23,7 @@ class PhotoRepo : KoinComponent {
     suspend fun fetchPhoto(id: Int) {
         _status.value = Status.LOADING
 
-        val photo = photoApi.getPhoto(id)
+        val photo: Either<Throwable, PhotoDto> = photoApi.getPhoto(id)
         photo.fold({
             _status.value = Status.ERROR.API("API ERROR")
         }, {
@@ -33,7 +36,7 @@ class PhotoRepo : KoinComponent {
         })
     }
 
-    fun getPhotos() = dao.getAll()
+    fun getPhotos(): LiveData<List<Photo>> = dao.getAll()
 
     suspend fun clear() = dao.deleteAll()
 
