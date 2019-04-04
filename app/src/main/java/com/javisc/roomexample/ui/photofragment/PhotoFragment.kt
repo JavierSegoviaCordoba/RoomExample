@@ -11,7 +11,7 @@ import com.javisc.roomexample.R
 import com.javisc.roomexample.util.ScreenState
 import kotlinx.android.synthetic.main.photo_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import snackbarShortOnDismiss
+import snackbarShortOnDismissed
 
 class PhotoFragment : Fragment() {
 
@@ -38,7 +38,7 @@ class PhotoFragment : Fragment() {
             when (screenState) {
                 is ScreenState.LOADING -> swipeRefreshLayout.isRefreshing = true
                 is ScreenState.ERROR ->
-                    view.snackbarShortOnDismiss(screenState.message, viewModel::finishState)
+                    view.snackbarShortOnDismissed(screenState.message) { viewModel.finishState() }
                 is ScreenState.FINISHED -> swipeRefreshLayout.isRefreshing = false
                 is ScreenState.SUCCESS -> swipeRefreshLayout.isRefreshing = false
             }

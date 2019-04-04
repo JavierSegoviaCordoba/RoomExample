@@ -1,12 +1,20 @@
 import android.view.View
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
-fun View.snackbarShortOnDismiss(message: String, onDismiss: () -> Any) =
-    Snackbar.make(this, message, Snackbar.LENGTH_SHORT).addCallback(object :
-        BaseTransientBottomBar.BaseCallback<Snackbar>() {
+
+inline fun View.snackbarShortOnDismissed(message: String, crossinline onDismissed: () -> Unit) {
+    val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_SHORT)
+    snackbar.onDismissed { onDismissed() }
+    snackbar.show()
+}
+
+
+inline fun Snackbar.onDismissed(crossinline onDismissed: () -> Unit) {
+    addCallback(object : Snackbar.Callback() {
         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
             super.onDismissed(transientBottomBar, event)
-            onDismiss()
+            onDismissed()
         }
-    }).show()
+    })
+}
+
