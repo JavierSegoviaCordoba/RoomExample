@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.javisc.roomexample.R
 import com.javisc.roomexample.datasource.database.entity.Photo
-import com.javisc.roomexample.extension.View.ImageView.glideCrossFadeCircle
+import com.javisc.roomexample.extension.glideCrossFadeCircle
 import kotlinx.android.synthetic.main.item_photo.view.*
 
 

@@ -1,4 +1,4 @@
-package com.javisc.roomexample.extension.View.ImageView
+package com.javisc.roomexample.extension
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
