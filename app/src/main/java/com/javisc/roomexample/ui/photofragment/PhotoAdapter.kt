@@ -25,7 +25,7 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(TaskDiffCa
         holder.bind(getItem(position))
 
 
-    class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(photo: Photo) {
             with(itemView) {
