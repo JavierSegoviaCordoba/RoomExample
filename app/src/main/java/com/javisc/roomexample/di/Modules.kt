@@ -9,6 +9,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val modules = module {
-    single<PhotoRepo> { PhotoRepoImpl(PhotoApi(), DatabaseRoom.database.photoDAO) }
+    single { PhotoApi() }
+    single { DatabaseRoom.database.photoDAO }
+    single<PhotoRepo> { PhotoRepoImpl(get(), get()) }
     viewModel { PhotoViewModel(get()) }
 }

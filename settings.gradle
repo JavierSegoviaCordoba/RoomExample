@@ -1,1 +1,1 @@
-include ':app', ':PhotoApi'
+include ':app', ':photoapi'
