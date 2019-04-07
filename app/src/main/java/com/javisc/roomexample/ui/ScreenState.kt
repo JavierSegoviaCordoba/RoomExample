@@ -1,4 +1,4 @@
-package com.javisc.roomexample.util
+package com.javisc.roomexample.ui
 
 sealed class ScreenState {
     class ERROR(val message: String) : ScreenState()

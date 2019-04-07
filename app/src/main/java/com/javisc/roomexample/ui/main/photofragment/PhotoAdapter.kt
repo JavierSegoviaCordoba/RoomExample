@@ -1,4 +1,4 @@
-package com.javisc.roomexample.ui.photofragment
+package com.javisc.roomexample.ui.main.photofragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.javisc.roomexample.R
 import com.javisc.roomexample.datasource.database.entity.Photo
-import com.javisc.roomexample.extension.glideCrossFadeCircle
+import com.javisc.roomexample.ui.extension.glideCrossFadeCircle
 import kotlinx.android.synthetic.main.item_photo.view.*
 
 
-class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(TaskDiffCallback()) {
+class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(
+    TaskDiffCallback()
+) {
 
     private var list: List<Photo>? = null
 

@@ -1,4 +1,4 @@
-package com.javisc.roomexample.extension
+package com.javisc.roomexample.ui.extension
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar

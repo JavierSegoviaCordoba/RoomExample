@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/photoFragment"
-        android:name="com.javisc.roomexample.ui.photofragment.PhotoFragment"
+        android:name="com.javisc.roomexample.ui.main.photofragment.PhotoFragment"
         android:label="photo_fragment"
         tools:layout="@layout/photo_fragment" />
 </navigation>

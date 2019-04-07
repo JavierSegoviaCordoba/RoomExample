@@ -3,41 +3,45 @@ package com.javisc.roomexample.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import arrow.core.Either
-import com.javisc.roomexample.datasource.database.DatabaseRoom
+import arrow.core.Try
+import com.javisc.photoapi.PhotoApi
+import com.javisc.photoapi.model.PhotoDto
+import com.javisc.roomexample.datasource.database.dao.PhotoDAO
 import com.javisc.roomexample.datasource.database.entity.Photo
 import com.javisc.roomexample.datasource.database.entity.toEntity
-import com.javisc.roomexample.datasource.service.PhotoApi
-import com.javisc.roomexample.datasource.service.PhotoDto
-import com.javisc.roomexample.util.Status
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-class PhotoRepo : KoinComponent {
 
-    private val dao = DatabaseRoom.database.photoDAO
-    private val photoApi by inject<PhotoApi>()
+interface PhotoRepo : KoinComponent {
+    suspend fun fetchPhoto(id: Int)
+    fun getPhotos(): LiveData<List<Photo>>
+    suspend fun clear()
+    fun getRepoStatus(): LiveData<RepoStatus>
+}
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status> = _status
+class PhotoRepoImpl(private val photoApi: PhotoApi, private val dao: PhotoDAO) : PhotoRepo {
 
-    suspend fun fetchPhoto(id: Int) {
-        _status.value = Status.LOADING
+    private val _status = MutableLiveData<RepoStatus>()
 
-        val photo: Either<Throwable, PhotoDto> = photoApi.getPhoto(id)
+    override suspend fun fetchPhoto(id: Int) {
+        _status.value = RepoStatus.LOADING
+
+        val photo: Either<Throwable, PhotoDto> = Try { photoApi.getPhoto(id) }.toEither()
         photo.fold({ throwable ->
-            _status.value = throwable.message?.let { Status.ERROR.API(it) }
+            _status.value = throwable.message?.let { RepoStatus.ERROR.API(it) }
         }, { photoDto ->
             try {
                 dao.insert(photoDto.toEntity())
-                _status.value = Status.SUCCESS
+                _status.value = RepoStatus.SUCCESS
             } catch (exception: Exception) {
-                _status.value = exception.message?.let { Status.ERROR.DB(it) }
+                _status.value = exception.message?.let { RepoStatus.ERROR.DB(it) }
             }
         })
     }
 
-    fun getPhotos(): LiveData<List<Photo>> = dao.getAll()
+    override fun getPhotos(): LiveData<List<Photo>> = dao.getAll()
 
-    suspend fun clear() = dao.deleteAll()
+    override suspend fun clear() = dao.deleteAll()
 
+    override fun getRepoStatus(): LiveData<RepoStatus> = _status
 }

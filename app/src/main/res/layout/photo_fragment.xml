@@ -4,7 +4,7 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.photofragment.PhotoFragment">
+    tools:context=".ui.main.photofragment.PhotoFragment">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -1,16 +1,13 @@
-package com.javisc.roomexample.datasource.service
+package com.javisc.photoapi.datasource
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.create
-import retrofit2.http.GET
-import retrofit2.http.Path
 
-object Retrofit {
+object PhotoApiServiceBuilder {
 
     private const val baseUrl = "https://jsonplaceholder.typicode.com/photos/"
 
@@ -26,9 +23,4 @@ object Retrofit {
 
     val service: PhotoService = retrofit.create()
 
-}
-
-interface PhotoService {
-    @GET("{id}")
-    fun getPhoto(@Path("id") id: Int): Call<PhotoDto>
 }

@@ -1,21 +1,21 @@
-package com.javisc.roomexample.ui.photofragment
+package com.javisc.roomexample.ui.main.photofragment
 
 import androidx.lifecycle.*
 import com.javisc.roomexample.datasource.database.entity.Photo
 import com.javisc.roomexample.repository.PhotoRepo
-import com.javisc.roomexample.util.ScreenState
-import com.javisc.roomexample.util.Status
+import com.javisc.roomexample.repository.RepoStatus
+import com.javisc.roomexample.ui.ScreenState
 import kotlinx.coroutines.launch
 
 class PhotoViewModel(private val photoRepo: PhotoRepo) : ViewModel() {
 
     private val _screenStates = MutableLiveData<ScreenState>()
-    val screenState = Transformations.switchMap(photoRepo.status) {
+    val screenState = Transformations.switchMap(photoRepo.getRepoStatus()) {
         when (it) {
-            is Status.SUCCESS -> _screenStates.value = ScreenState.SUCCESS
-            is Status.ERROR.API -> _screenStates.value = ScreenState.ERROR(it.error)
-            is Status.ERROR.DB -> _screenStates.value = ScreenState.ERROR(it.error)
-            is Status.LOADING -> _screenStates.value = ScreenState.LOADING
+            is RepoStatus.SUCCESS -> _screenStates.value = ScreenState.SUCCESS
+            is RepoStatus.ERROR.API -> _screenStates.value = ScreenState.ERROR(it.error)
+            is RepoStatus.ERROR.DB -> _screenStates.value = ScreenState.ERROR(it.error)
+            is RepoStatus.LOADING -> _screenStates.value = ScreenState.LOADING
         }.let { _screenStates }
     }
 

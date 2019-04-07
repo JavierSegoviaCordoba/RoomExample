@@ -1,4 +1,4 @@
-package com.javisc.roomexample.ui.photofragment
+package com.javisc.roomexample.ui.main.photofragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.javisc.roomexample.R
-import com.javisc.roomexample.extension.snackbarShortOnDismissed
-import com.javisc.roomexample.util.ScreenState
+import com.javisc.roomexample.ui.ScreenState
+import com.javisc.roomexample.ui.extension.snackbarShortOnDismissed
 import kotlinx.android.synthetic.main.photo_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
