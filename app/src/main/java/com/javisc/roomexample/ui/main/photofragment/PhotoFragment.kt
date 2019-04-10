@@ -58,9 +58,9 @@ class PhotoFragment : Fragment() {
             adapter = photoAdapter
         }
 
-        viewModel.photoList.observe(this, Observer {
-            counter = it.size
-            photoAdapter.submitList(it)
+        viewModel.photoList.observe(this, Observer { photoList ->
+            counter = photoList.size
+            photoAdapter.submitList(photoList)
             recyclerView.smoothScrollToPosition(photoAdapter.itemCount)
         })
     }

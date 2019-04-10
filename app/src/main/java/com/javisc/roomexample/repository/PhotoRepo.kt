@@ -13,6 +13,7 @@ import org.koin.core.KoinComponent
 
 
 interface PhotoRepo : KoinComponent {
+    suspend fun insert(photo: Photo)
     suspend fun fetchPhoto(id: Int)
     fun getPhotos(): LiveData<List<Photo>>
     suspend fun clear()
@@ -21,27 +22,40 @@ interface PhotoRepo : KoinComponent {
 
 class PhotoRepoImpl(private val photoApi: PhotoApi, private val dao: PhotoDAO) : PhotoRepo {
 
-    private val _status = MutableLiveData<RepoStatus>()
+    override suspend fun insert(photo: Photo) {
+        val insertEither = Try { dao.insert(photo) }.toEither()
+        when (insertEither) {
+            is Either.Left -> {
+                val throwable: Throwable = insertEither.a
+                _repoStatus.value = throwable.message?.let { RepoStatus.ERROR.DB(it) }
+            }
+            is Either.Right -> {
+                _repoStatus.value = RepoStatus.SUCCESS
+            }
+        }
+    }
+
+    private val _repoStatus = MutableLiveData<RepoStatus>()
 
     override suspend fun fetchPhoto(id: Int) {
-        _status.value = RepoStatus.LOADING
+        _repoStatus.value = RepoStatus.LOADING
 
-        val photo: Either<Throwable, PhotoDto> = Try { photoApi.getPhoto(id) }.toEither()
-        photo.fold({ throwable ->
-            _status.value = throwable.message?.let { RepoStatus.ERROR.API(it) }
-        }, { photoDto ->
-            try {
-                dao.insert(photoDto.toEntity())
-                _status.value = RepoStatus.SUCCESS
-            } catch (exception: Exception) {
-                _status.value = exception.message?.let { RepoStatus.ERROR.DB(it) }
+        val photoEither: Either<Throwable, PhotoDto> = Try { photoApi.getPhoto(id) }.toEither()
+        when (photoEither) {
+            is Either.Left -> {
+                val throwable: Throwable = photoEither.a
+                _repoStatus.value = throwable.message?.let { RepoStatus.ERROR.API(it) }
             }
-        })
+            is Either.Right -> {
+                val photoDto: PhotoDto = photoEither.b
+                insert(photoDto.toEntity())
+            }
+        }
     }
 
     override fun getPhotos(): LiveData<List<Photo>> = dao.getAll()
 
     override suspend fun clear() = dao.deleteAll()
 
-    override fun getRepoStatus(): LiveData<RepoStatus> = _status
+    override fun getRepoStatus(): LiveData<RepoStatus> = _repoStatus
 }

@@ -12,11 +12,7 @@ import com.javisc.roomexample.ui.extension.glideCrossFadeCircle
 import kotlinx.android.synthetic.main.item_photo.view.*
 
 
-class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(
-    TaskDiffCallback()
-) {
-
-    private var list: List<Photo>? = null
+class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(TaskDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,12 +22,12 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(photo: Photo) {
             with(itemView) {
-                imageViewPhoto.glideCrossFadeCircle(photo.url)
+                val imageUrl = "https://picsum.photos/400?image=${photo.id}"
+                imageViewPhoto.glideCrossFadeCircle(imageUrl)
                 textViewTitle.text = context.getString(R.string.id_placeholder, photo.id.toString())
                 textViewUrl.text = photo.title
             }
@@ -39,10 +35,6 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(
 
     }
 
-    override fun submitList(list: List<Photo>?) {
-        super.submitList(list)
-        this.list = list
-    }
 }
 
 class TaskDiffCallback : DiffUtil.ItemCallback<Photo>() {
