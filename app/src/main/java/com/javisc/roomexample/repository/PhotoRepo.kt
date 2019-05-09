@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import arrow.core.Either
 import arrow.core.Try
 import com.javisc.photoapi.PhotoApi
-import com.javisc.photoapi.model.PhotoDto
+import com.javisc.photoapi.datasource.PhotoDto
 import com.javisc.roomexample.datasource.database.dao.PhotoDAO
 import com.javisc.roomexample.datasource.database.entity.Photo
 import com.javisc.roomexample.datasource.database.entity.toEntity
-import org.koin.core.KoinComponent
 
 
-interface PhotoRepo : KoinComponent {
+interface PhotoRepo {
     suspend fun insert(photo: Photo)
     suspend fun fetchPhoto(id: Int)
     fun getPhotos(): LiveData<List<Photo>>

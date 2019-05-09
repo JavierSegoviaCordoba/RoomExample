@@ -2,7 +2,7 @@ package com.javisc.roomexample.datasource.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.javisc.photoapi.model.PhotoDto
+import com.javisc.photoapi.datasource.PhotoDto
 
 @Entity
 data class Photo(

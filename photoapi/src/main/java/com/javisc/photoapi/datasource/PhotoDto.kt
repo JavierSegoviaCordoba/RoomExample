@@ -1,4 +1,4 @@
-package com.javisc.photoapi.model
+package com.javisc.photoapi.datasource
 
 data class PhotoDto(
     val albumId: Long,

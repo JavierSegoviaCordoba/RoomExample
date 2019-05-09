@@ -1,7 +1,7 @@
 package com.javisc.photoapi.repository
 
+import com.javisc.photoapi.datasource.PhotoDto
 import com.javisc.photoapi.datasource.PhotoService
-import com.javisc.photoapi.model.PhotoDto
 import retrofit2.await
 
 interface PhotoApiRepo {
