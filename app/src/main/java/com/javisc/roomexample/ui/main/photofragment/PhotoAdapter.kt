@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.item_photo.view.*
 
 class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(TaskDiffCallback()) {
 
+    var onClick: ((Photo) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return PhotoViewHolder(inflater.inflate(R.layout.item_photo, parent, false))
@@ -30,6 +32,9 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(TaskDiffCa
                 imageViewPhoto.glideCrossFadeCircle(imageUrl)
                 textViewTitle.text = context.getString(R.string.id_placeholder, photo.id.toString())
                 textViewUrl.text = photo.title
+                setOnClickListener {
+                    onClick?.invoke(photo)
+                }
             }
         }
 

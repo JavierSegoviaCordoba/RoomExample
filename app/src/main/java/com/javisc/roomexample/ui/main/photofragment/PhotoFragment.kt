@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +52,11 @@ class PhotoFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val photoAdapter = PhotoAdapter()
+        val photoAdapter = PhotoAdapter().apply {
+            onClick = { photo ->
+                Toast.makeText(context, photo.title, Toast.LENGTH_LONG).show()
+            }
+        }
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
